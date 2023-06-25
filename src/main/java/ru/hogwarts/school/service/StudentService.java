@@ -1,5 +1,6 @@
 package ru.hogwarts.school.service;
 
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.exceptions.EmptyStringException;
@@ -7,66 +8,55 @@ import ru.hogwarts.school.exceptions.StudentAlreadyExistsException;
 import ru.hogwarts.school.exceptions.StudentNotFoundException;
 import ru.hogwarts.school.exceptions.WrongStudentAgeException;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.StudentRepository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Service
+@RequiredArgsConstructor
 public class StudentService {
-    private static final AtomicLong count = new AtomicLong(0);
-    Map<Long, Student> studentsMap = new HashMap<>();
 
-    public Student addStudent(final String name, final int age) {
-        validateString(name);
-        validateAge(age);
+    private final StudentRepository studentRepository;
 
-        Student student = new Student(name, age);
-        if (studentsMap.containsValue(student)) {
-            // Если объект уже содержится в карте, не добавляем его повторно
-            throw new StudentAlreadyExistsException("Такой Студент уже существует");
+    public Student addStudent(final Student student) {
+        validateString(student.getName());
+        validateAge(student.getAge());
+
+        if (studentRepository.existsByNameAndAge(StringUtils.capitalize(student.getName()),
+                student.getAge())) {
+            throw new StudentAlreadyExistsException("Такой студент уже существует");
         }
-        var key = generateUniqueKey();
-        studentsMap.put(key, student);
-        student.setId(key); // Установить id факультета
-        return studentsMap.get(key);
-    }
 
-    private synchronized Long generateUniqueKey() {
-        // Генерировать уникальный ключ, который не присутствует в карте facultyMap
-        var key = count.incrementAndGet();
-        while (studentsMap.containsKey(key)) {
-            key = count.incrementAndGet();
-        }
-        return key;
+        student.setId(student.getId());
+        student.setName(StringUtils.capitalize(student.getName()));
+        student.setAge(student.getAge());
+        return studentRepository.save(student);
     }
 
     public Student getStudentById(final Long id) {
-        if (id > studentsMap.size()) {
-            throw new StudentNotFoundException("Отсутствует Студент по данному ID");
-        }
-        return studentsMap.get(id);
+        return studentRepository.findById(id)
+                .orElseThrow(() -> new StudentNotFoundException("Отсутствует Студент по данному ID"));
     }
 
-    public Student changeStudentById(final Long id, final String name, final int age) {
-        if (id > studentsMap.size()) {
-            throw new StudentNotFoundException("Отсутствует Студент по данному ID");
+    public Student changeStudentById(final Student student) {
+        validateString(student.getName());
+        validateAge(student.getAge());
+
+        if (!studentRepository.existsById(student.getId())) {
+            throw new StudentNotFoundException("Студент не найден");
         }
-        validateString(name);
-        validateAge(age);
 
-        Student student = new Student(name, age);
-        student.setId(id);
+        student.setName(StringUtils.capitalize(student.getName()));
+        student.setAge(student.getAge());
 
-        return studentsMap.put(id, student);
+        return studentRepository.save(student);
     }
 
-    public Student removeStudentById(final Long id) {
-        if (id > studentsMap.size()) {
+    public void removeStudentById(final Long id) {
+        if (!studentRepository.existsById(id)) {
             throw new StudentNotFoundException("Отсутствует Студент по данному ID");
         }
-        return studentsMap.remove(id);
+        studentRepository.deleteById(id);
     }
 
     private void validateString(String string) {
@@ -83,13 +73,8 @@ public class StudentService {
 
     public List<Student> getStudentsByAge(final int age) {
         validateAge(age);
-        List<Student> students = studentsMap.values().stream()
-                .filter(student -> student.getAge() == age)
-                .toList();
 
-        if (students.isEmpty()) {
-            throw new StudentNotFoundException("Студенты с данным возрастом не найдены");
-        }
-        return students;
+        return studentRepository.findAllByAge(age)
+                .orElseThrow(() -> new StudentNotFoundException("Студенты с данным возрастом не найдены"));
     }
 }

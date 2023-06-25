@@ -17,9 +17,8 @@ public class FacultyController {
 
     @Operation(summary = "Добавить факультет")
     @PostMapping("/add")
-    public ResponseEntity<Faculty> addFaculty(@RequestParam String name,
-                                              @RequestParam String color) {
-        return ResponseEntity.ok(facultyService.addFaculty(name, color));
+    public ResponseEntity<Faculty> addFaculty(@RequestBody Faculty faculty) {
+        return ResponseEntity.ok(facultyService.addFaculty(faculty));
     }
 
     @Operation(summary = "Получить факультет по ИД")
@@ -30,21 +29,20 @@ public class FacultyController {
 
     @Operation(summary = "Изменить факультет")
     @PutMapping("/put")
-    public ResponseEntity<Faculty> changeFaculty(@RequestParam Long id,
-                                                 @RequestParam String name,
-                                                 @RequestParam String color) {
-        return ResponseEntity.ok(facultyService.changeFacultyById(id, name, color));
+    public ResponseEntity<Faculty> changeFaculty(@RequestBody Faculty faculty) {
+        return ResponseEntity.ok(facultyService.changeFaculty(faculty));
     }
 
     @Operation(summary = "Удалить факультет")
     @DeleteMapping("/remove/{id}")
-    public ResponseEntity<Faculty> removeFacultyById(@PathVariable Long id) {
-        return ResponseEntity.ok(facultyService.removeFacultyById(id));
+    public ResponseEntity<String> removeFacultyById(@PathVariable Long id) {
+        facultyService.removeFacultyById(id);
+        return ResponseEntity.ok("Факультет успешно удалён");
     }
 
     @Operation(summary = "Получить все факультеты по цвету")
     @GetMapping("/all/{color}")
-    public ResponseEntity<List<Faculty>> getFacultiesByAge(@PathVariable String color) {
-        return ResponseEntity.ok(facultyService.getFacultiesByAge(color));
+    public ResponseEntity<List<Faculty>> getFacultiesByColor(@PathVariable String color) {
+        return ResponseEntity.ok(facultyService.getFacultiesByColor(color));
     }
 }
