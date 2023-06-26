@@ -1,6 +1,8 @@
 package ru.hogwarts.school.model;
 
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang3.StringUtils;
 
@@ -8,10 +10,16 @@ import java.util.Objects;
 
 @Getter
 @Setter
+@Entity
+@NoArgsConstructor
 public class Student {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column
     private String name;
+    @Column
     private int age;
 
     public Student(String name, int age) {

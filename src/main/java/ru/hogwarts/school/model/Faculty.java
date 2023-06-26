@@ -1,23 +1,25 @@
 package ru.hogwarts.school.model;
 
+import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 
 @Getter
 @Setter
+@Entity
+@NoArgsConstructor
 public class Faculty {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column
     private String name;
+    @Column
     private String color;
-
-    public Faculty(String name, String color) {
-        this.name = StringUtils.capitalize(name);
-        this.color = color;
-    }
 
     @Override
     public boolean equals(Object o) {

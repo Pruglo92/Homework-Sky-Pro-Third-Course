@@ -17,9 +17,8 @@ public class StudentController {
 
     @Operation(summary = "Добавить студента")
     @PostMapping("/add")
-    public ResponseEntity<Student> addStudent(@RequestParam String name,
-                                              @RequestParam int age) {
-        return ResponseEntity.ok(studentService.addStudent(name, age));
+    public ResponseEntity<Student> addStudent(@RequestBody Student student) {
+        return ResponseEntity.ok(studentService.addStudent(student));
     }
 
     @Operation(summary = "Получить студента по ИД")
@@ -30,16 +29,15 @@ public class StudentController {
 
     @Operation(summary = "Изменить студента")
     @PutMapping("/put")
-    public ResponseEntity<Student> changeStudent(@RequestParam Long id,
-                                                 @RequestParam String name,
-                                                 @RequestParam int age) {
-        return ResponseEntity.ok(studentService.changeStudentById(id, name, age));
+    public ResponseEntity<Student> changeStudent(@RequestBody Student student) {
+        return ResponseEntity.ok(studentService.changeStudentById(student));
     }
 
     @Operation(summary = "Удалить студента")
     @DeleteMapping("/remove/{id}")
-    public ResponseEntity<Student> removeStudentById(@PathVariable Long id) {
-        return ResponseEntity.ok(studentService.removeStudentById(id));
+    public ResponseEntity<String> removeStudentById(@PathVariable Long id) {
+        studentService.removeStudentById(id);
+        return ResponseEntity.ok("Студент успешно удалён");
     }
 
     @Operation(summary = "Получить всх студентов по возрасту")
