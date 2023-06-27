@@ -13,4 +13,8 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     boolean existsByNameAndAge(String name, int age);
 
     Optional<List<Student>> findAllByAge(int age);
+
+    Optional<List<Student>> findByAgeBetween(int minAge, int maxAge);
+
+    Optional<List<Student>> findAllByFaculty_Id(Long id);
 }

@@ -45,4 +45,16 @@ public class StudentController {
     public ResponseEntity<List<Student>> getStudentsByAge(@PathVariable int age) {
         return ResponseEntity.ok(studentService.getStudentsByAge(age));
     }
+
+    @Operation(summary = "Получить всх студентов в промежутке по возрасту")
+    @GetMapping("/allBetween/{minAge}, {maxAge}")
+    public ResponseEntity<List<Student>> getStudentsByAgeBetween(@PathVariable int minAge, @PathVariable int maxAge) {
+        return ResponseEntity.ok(studentService.getStudentsByAgeBetween(minAge, maxAge));
+    }
+
+    @Operation(summary = "Получить всех студентов по ИД факультета")
+    @GetMapping("/students/{id}")
+    public ResponseEntity<List<Student>> getStudentsByFacultyId(@PathVariable Long id) {
+        return ResponseEntity.ok(studentService.getStudentsByIdFacultyId(id));
+    }
 }
