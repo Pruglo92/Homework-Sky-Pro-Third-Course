@@ -1,25 +1,33 @@
 package ru.hogwarts.school.model;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import lombok.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Getter
 @Setter
 @Entity
+@ToString(exclude = "students")
 @NoArgsConstructor
-public class Faculty {
+@AllArgsConstructor
+public class Faculty extends BaseEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @Column
+    @JsonProperty("name")
     private String name;
     @Column
+    @JsonProperty("color")
     private String color;
+
+    @OneToMany(mappedBy = "faculty")
+    @JsonIgnore
+    private List<Student> students;
 
     @Override
     public boolean equals(Object o) {

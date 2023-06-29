@@ -10,6 +10,8 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repository.FacultyRepository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -69,5 +71,24 @@ public class FacultyService {
         validateString(color);
         return facultyRepository.findAllByColor(color)
                 .orElseThrow(() -> new FacultyNotFoundException("Факультеты с данным цветом не найдены"));
+    }
+
+    public Faculty getFacultyByColorOrName(final String string) {
+        validateString(string);
+        var faculties = facultyRepository.findWithParam(string, string);
+
+        if (faculties.isEmpty()) {
+            throw new FacultyNotFoundException("Факультеты с данным цветом или именем не найдены");
+        }
+        return faculties.get(new Random().nextInt(faculties.size()));
+    }
+
+    public Faculty getFacultyByStudentIdOrName(final Long id, final String name) {
+        return Optional.ofNullable(id)
+                .map(facultyRepository::findByStudentsId)
+                .orElseGet(() -> Optional.ofNullable(name)
+                        .map(facultyRepository::findByStudentsName)
+                        .orElseThrow(() -> new FacultyNotFoundException("Отсутствует факультет по данному ID или имени")))
+                .orElseThrow(() -> new FacultyNotFoundException("Отсутствует факультет по данному ID или имени"));
     }
 }

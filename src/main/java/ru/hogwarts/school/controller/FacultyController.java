@@ -45,4 +45,17 @@ public class FacultyController {
     public ResponseEntity<List<Faculty>> getFacultiesByColor(@PathVariable String color) {
         return ResponseEntity.ok(facultyService.getFacultiesByColor(color));
     }
+
+    @Operation(summary = "Получить факультет по цвету или имени")
+    @GetMapping("/{colorOrName}")
+    public ResponseEntity<Faculty> getFacultiesByColorOrName(@PathVariable String colorOrName) {
+        return ResponseEntity.ok(facultyService.getFacultyByColorOrName(colorOrName));
+    }
+
+    @Operation(summary = "Получить факультет по ИД или имени студента")
+    @GetMapping()
+    public ResponseEntity<Faculty> getFacultyByStudentIdOrName(@RequestParam(required = false) Long id,
+                                                               @RequestParam(required = false) String name) {
+        return ResponseEntity.ok(facultyService.getFacultyByStudentIdOrName(id, name));
+    }
 }

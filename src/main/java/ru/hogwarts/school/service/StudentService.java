@@ -77,4 +77,16 @@ public class StudentService {
         return studentRepository.findAllByAge(age)
                 .orElseThrow(() -> new StudentNotFoundException("Студенты с данным возрастом не найдены"));
     }
+
+    public List<Student> getStudentsByAgeBetween(final int minAge, final int maxAge) {
+        validateAge(minAge);
+        validateAge(maxAge);
+        return studentRepository.findByAgeBetween(minAge, maxAge)
+                .orElseThrow(() -> new StudentNotFoundException("Студенты с данным промежутком возраста не найдены"));
+    }
+
+    public List<Student> getStudentsByIdFacultyId(final Long id) {
+        return studentRepository.findAllByFaculty_Id(id)
+                .orElseThrow(() -> new StudentNotFoundException("Отсутствует Студент по данному ID"));
+    }
 }
