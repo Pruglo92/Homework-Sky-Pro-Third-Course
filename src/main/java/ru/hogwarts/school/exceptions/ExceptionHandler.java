@@ -42,4 +42,16 @@ public class ExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(e.getMessage());
     }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(FailedUploadFileException.class)
+    public ResponseEntity<String> failedUploadFileExceptionHandler(FailedUploadFileException e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body("Ошибка загрузки файла");
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(AvatarNotFoundException.class)
+    public ResponseEntity<String> AvatarNotFoundExceptionHandler(AvatarNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(e.getMessage());
+    }
 }

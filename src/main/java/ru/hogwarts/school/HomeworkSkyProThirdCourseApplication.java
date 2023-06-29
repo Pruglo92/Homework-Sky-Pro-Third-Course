@@ -9,5 +9,4 @@ public class HomeworkSkyProThirdCourseApplication {
     public static void main(String[] args) {
         SpringApplication.run(HomeworkSkyProThirdCourseApplication.class, args);
     }
-
 }
