@@ -1,11 +1,7 @@
 package ru.hogwarts.school.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Objects;
@@ -24,11 +20,11 @@ public class Student extends BaseEntity {
     @Column
     @JsonProperty("age")
     private int age;
-
     @ManyToOne
     @JoinColumn(name = "faculty_id")
-    @JsonIgnore
     private Faculty faculty;
+    @OneToOne(mappedBy = "student")
+    private Avatar avatar;
 
     @Override
     public boolean equals(Object o) {

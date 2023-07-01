@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/hogwarts
+    username: student
+    password: chocolatefrog
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+upload:
+  dir: "/home/vladimir/IdeaProjects/Homework-Sky-Pro-Third-Course/src/main/resources/files/"
