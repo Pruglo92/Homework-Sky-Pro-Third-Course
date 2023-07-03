@@ -15,8 +15,10 @@ import ru.hogwarts.school.exceptions.FailedUploadFileException;
 import ru.hogwarts.school.model.Avatar;
 import ru.hogwarts.school.repository.AvatarRepository;
 
-import java.io.File;
-import java.io.IOException;
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -77,5 +79,24 @@ public class AvatarService {
             }
         }
         throw new AvatarNotFoundException("Не найден Аватар по данному пути");
+    }
+
+    private byte[] generateImagePreview(String filePath) {
+        try (InputStream is = Files.newInputStream(Path.of(filePath));
+             BufferedInputStream bis = new BufferedInputStream(is, 1024);
+             ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+            BufferedImage image = ImageIO.read(bis);
+
+            int height = image.getHeight() / (image.getWidth() / 100);
+            BufferedImage preview = new BufferedImage(100, height, image.getType());
+            Graphics2D graphics = preview.createGraphics();
+            graphics.drawImage(image, 0, 0, 100, height, null);
+            graphics.dispose();
+
+            ImageIO.write(preview, "png", baos);
+            return baos.toByteArray();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
