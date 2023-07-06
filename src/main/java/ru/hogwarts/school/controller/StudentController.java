@@ -57,4 +57,22 @@ public class StudentController {
     public ResponseEntity<List<Student>> getStudentsByFacultyId(@PathVariable Long id) {
         return ResponseEntity.ok(studentService.getStudentsByIdFacultyId(id));
     }
+
+    @Operation(summary = "Получить количество всех студентов")
+    @GetMapping("/students/count")
+    public ResponseEntity<Integer> getStudentCount() {
+        return ResponseEntity.ok(studentService.getStudentCount());
+    }
+
+    @Operation(summary = "Получить средний возраст студентов")
+    @GetMapping("/students/average-age")
+    public ResponseEntity<Integer> getAverageAge() {
+        return ResponseEntity.ok(studentService.getAverageAge());
+    }
+
+    @Operation(summary = "Получить последние 5 студентов")
+    @GetMapping("/students/last-five")
+    public ResponseEntity<List<Student>> getLastFiveStudents() {
+        return ResponseEntity.ok(studentService.getLastFiveStudents());
+    }
 }
