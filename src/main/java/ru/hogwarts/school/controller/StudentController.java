@@ -47,7 +47,7 @@ public class StudentController {
     }
 
     @Operation(summary = "Получить всх студентов в промежутке по возрасту")
-    @GetMapping("/allBetween/{minAge}, {maxAge}")
+    @GetMapping("/allBetween/{minAge}/{maxAge}")
     public ResponseEntity<List<Student>> getStudentsByAgeBetween(@PathVariable int minAge, @PathVariable int maxAge) {
         return ResponseEntity.ok(studentService.getStudentsByAgeBetween(minAge, maxAge));
     }
