@@ -3,6 +3,7 @@ package ru.hogwarts.school.service;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.hogwarts.school.exceptions.EmptyStringException;
 import ru.hogwarts.school.exceptions.StudentAlreadyExistsException;
 import ru.hogwarts.school.exceptions.StudentNotFoundException;
@@ -13,6 +14,7 @@ import ru.hogwarts.school.repository.StudentRepository;
 import java.util.List;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class StudentService {
 
@@ -88,5 +90,17 @@ public class StudentService {
     public List<Student> getStudentsByIdFacultyId(final Long id) {
         return studentRepository.findAllByFaculty_Id(id)
                 .orElseThrow(() -> new StudentNotFoundException("Отсутствует Студент по данному ID"));
+    }
+
+    public Integer getStudentCount() {
+        return studentRepository.getStudentCount();
+    }
+
+    public Integer getAverageAge() {
+        return studentRepository.getAverageAge();
+    }
+
+    public List<Student> getLastFiveStudents() {
+        return studentRepository.getLastFiveStudents();
     }
 }

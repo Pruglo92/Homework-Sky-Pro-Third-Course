@@ -3,6 +3,7 @@ package ru.hogwarts.school.service;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.hogwarts.school.exceptions.EmptyStringException;
 import ru.hogwarts.school.exceptions.FacultyAlreadyExistsException;
 import ru.hogwarts.school.exceptions.FacultyNotFoundException;
@@ -14,6 +15,7 @@ import java.util.Optional;
 import java.util.Random;
 
 @Service
+@Transactional
 @RequiredArgsConstructor
 public class FacultyService {
 
