@@ -8,5 +8,6 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: update
+    show-sql: false
 upload:
   dir: "/home/vladimir/IdeaProjects/Homework-Sky-Pro-Third-Course/src/main/resources/files/"

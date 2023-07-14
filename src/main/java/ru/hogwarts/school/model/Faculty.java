@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.*;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.Objects;
 @Setter
 @Entity
 @ToString(exclude = "students")
+@Table(name = "faculties")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Faculty extends BaseEntity {
@@ -24,7 +26,6 @@ public class Faculty extends BaseEntity {
     @Column
     @JsonProperty("color")
     private String color;
-
     @OneToMany(mappedBy = "faculty")
     @JsonIgnore
     private List<Student> students;

@@ -1,17 +1,15 @@
 package ru.hogwarts.school.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
 @Setter
+@Entity
 @ToString(exclude = "student")
+@Table(name = "avatars")
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 public class Avatar extends BaseEntity {
 
     @Column
@@ -20,9 +18,9 @@ public class Avatar extends BaseEntity {
     private long fileSize;
     @Column
     private String mediaType;
+    @Lob
     @Column
     private byte[] data;
-
     @OneToOne
     @JoinColumn(name = "student_id")
     private Student student;

@@ -10,6 +10,7 @@ import java.util.Objects;
 @Setter
 @Entity
 @ToString(exclude = "faculty")
+@Table(name = "students")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Student extends BaseEntity {
