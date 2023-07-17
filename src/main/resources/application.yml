@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: prod
   datasource:
     url: jdbc:postgresql://localhost:5432/hogwarts
     username: student
@@ -14,3 +16,9 @@ spring:
 
 upload:
   dir: "/home/vladimir/IdeaProjects/Homework-Sky-Pro-Third-Course/src/main/resources/files/"
+
+logging:
+  level:
+    ru.hogwarts.school.service: trace
+server:
+  port: 8080
