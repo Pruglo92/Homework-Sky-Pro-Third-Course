@@ -9,5 +9,8 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: false
+  liquibase:
+    change-log: "db.changelog/db.changelog.yml"
+
 upload:
   dir: "/home/vladimir/IdeaProjects/Homework-Sky-Pro-Third-Course/src/main/resources/files/"
