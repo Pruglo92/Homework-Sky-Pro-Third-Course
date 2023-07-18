@@ -46,7 +46,7 @@ public class StudentControllerTest {
         doNothing().when(studentService).removeStudentById(anyLong());
         when(studentService.getStudentsByAge(anyInt())).thenReturn(Collections.singletonList(student));
         when(studentService.getStudentsByAgeBetween(anyInt(), anyInt())).thenReturn(Collections.singletonList(student));
-        when(studentService.getStudentsByIdFacultyId(anyLong())).thenReturn(Collections.singletonList(student));
+        when(studentService.getStudentsByFacultyId(anyLong())).thenReturn(Collections.singletonList(student));
     }
 
     @Test

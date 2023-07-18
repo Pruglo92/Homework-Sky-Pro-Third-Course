@@ -55,7 +55,7 @@ public class StudentController {
     @Operation(summary = "Получить всех студентов по ИД факультета")
     @GetMapping("/students/{id}")
     public ResponseEntity<List<Student>> getStudentsByFacultyId(@PathVariable Long id) {
-        return ResponseEntity.ok(studentService.getStudentsByIdFacultyId(id));
+        return ResponseEntity.ok(studentService.getStudentsByFacultyId(id));
     }
 
     @Operation(summary = "Получить количество всех студентов")
