@@ -14,7 +14,7 @@ public interface FacultyRepository extends JpaRepository<Faculty, Long> {
 
     boolean existsFacultyByNameAndColor(String name, String color);
 
-    Optional<List<Faculty>> findAllByColor(String color);
+    List<Faculty> findAllByColor(String color);
 
     @Query("SELECT f FROM Faculty f WHERE LOWER(f.color) = LOWER(:color) OR LOWER(f.name) = LOWER(:name)")
     List<Faculty> findWithParam(@Param("color") String color, @Param("name") String name);
