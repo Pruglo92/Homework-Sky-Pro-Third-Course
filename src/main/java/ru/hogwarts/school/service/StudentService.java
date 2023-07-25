@@ -189,6 +189,55 @@ public class StudentService {
                 .toList();
     }
 
+    public void printStudentsNames() {
+        List<Student> students = studentRepository.findAll();
+
+        printStudentName(students.get(0));
+        printStudentName(students.get(1));
+
+        new Thread(() -> {
+            printStudentName(students.get(2));
+            printStudentName(students.get(3));
+        }).start();
+
+        new Thread(() -> {
+            printStudentName(students.get(4));
+            printStudentName(students.get(5));
+        }).start();
+    }
+
+    public void printStudentsNamesSync() {
+        List<Student> students = studentRepository.findAll();
+
+        printStudentNameSync(students.get(0));
+        printStudentNameSync(students.get(1));
+
+        new Thread(() -> {
+            printStudentNameSync(students.get(2));
+            printStudentNameSync(students.get(3));
+        }).start();
+
+        new Thread(() -> {
+            printStudentNameSync(students.get(4));
+            printStudentNameSync(students.get(5));
+        }).start();
+    }
+
+    private void printStudentName(Student student) {
+        try {
+            Thread.sleep(200);
+            System.out.println(Thread.currentThread().getName());
+            System.out.println(student.getName());
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private synchronized void printStudentNameSync(Student student) {
+        printStudentName(student);
+    }
+
+
     private void validateString(String string) {
         log.info("Was invoked method for : {}", getMethodName());
         if (!StringUtils.isAlpha(string)) {
