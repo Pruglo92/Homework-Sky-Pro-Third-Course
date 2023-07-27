@@ -90,4 +90,18 @@ public class StudentController {
     public ResponseEntity<List<String>> getStudentNamesStartingWithA() {
         return ResponseEntity.ok(studentService.getStudentNamesStartingWithA());
     }
+
+    @Operation(summary = "Вывести список имен студентов в консоль")
+    @GetMapping("/students-names")
+    public ResponseEntity<String> getStudentsNames() {
+        studentService.printStudentsNames();
+        return ResponseEntity.ok("Список студентов выводится в консоль");
+    }
+
+    @Operation(summary = "Вывести список имен студентов в консоль c синхронизацией")
+    @GetMapping("/students-names-sync")
+    public ResponseEntity<String> getStudentsNamesSync() {
+        studentService.printStudentsNamesSync();
+        return ResponseEntity.ok("Список студентов выводится в консоль");
+    }
 }
